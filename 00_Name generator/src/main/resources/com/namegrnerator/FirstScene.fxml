@@ -10,27 +10,8 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="377.0" prefWidth="336.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="com.namegrnerator.Controller">
+<AnchorPane prefHeight="377.0" prefWidth="336.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="com.namegrnerator.controllerFxml.ControllerFirstScene">
   <children>
-    <MenuBar layoutX="0.0" layoutY="2.0">
-      <menus>
-        <Menu mnemonicParsing="false" text="File">
-          <items>
-            <MenuItem mnemonicParsing="false" text="Close" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Option">
-          <items>
-            <MenuItem mnemonicParsing="false" text="Delete" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="About">
-          <items>
-            <MenuItem mnemonicParsing="false" text="About" />
-          </items>
-        </Menu>
-      </menus>
-    </MenuBar>
     <Label id="" alignment="CENTER_RIGHT" layoutX="54.0" layoutY="59.0" prefHeight="21.0" prefWidth="51.0" text="Name:" textAlignment="LEFT" wrapText="false">
       <font>
         <Font size="15.0" fx:id="x1" />
@@ -44,5 +25,8 @@
     <Label alignment="CENTER_RIGHT" font="$x1" layoutX="40.0" layoutY="149.0" prefWidth="65.0" text="Address:" textAlignment="LEFT" />
     <Label fx:id="birthday" font="$x1" layoutX="112.0" layoutY="114.0" prefHeight="17.0" prefWidth="136.0" text="" textAlignment="LEFT" />
     <Label fx:id="address" font="$x1" layoutX="112.0" layoutY="145.0" prefHeight="17.0" prefWidth="136.0" text="" textAlignment="LEFT" />
+    <Label alignment="CENTER_RIGHT" font="$x1" layoutX="14.0" layoutY="175.0" prefWidth="91.0" text="Phone:" textAlignment="LEFT" />
+    <Label fx:id="numberPhone" font="$x1" layoutX="112.0" layoutY="175.0" prefHeight="17.0" prefWidth="136.0" text="" textAlignment="LEFT" />
+    <Button layoutX="17.0" layoutY="17.0" mnemonicParsing="false" text="Option" />
   </children>
 </AnchorPane>
