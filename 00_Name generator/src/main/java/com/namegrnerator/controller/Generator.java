@@ -40,6 +40,7 @@ public class Generator {
                     name = line;
                 }
             }
+
             FileSupport nowy = new FileSupport(pathFileNameF);
 
             lineNumberReaderNameF.close();
