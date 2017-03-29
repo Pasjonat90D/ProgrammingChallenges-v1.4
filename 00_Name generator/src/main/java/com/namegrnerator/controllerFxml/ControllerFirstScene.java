@@ -8,6 +8,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
+import javax.swing.*;
+import java.awt.*;
+
 public class ControllerFirstScene {
 
     @FXML
@@ -20,8 +23,8 @@ public class ControllerFirstScene {
     public Label birthday;
     @FXML
     public Label address;
-    @FXML
-    public Button button;
+
+    private String option;
 
 
     public void click(ActionEvent actionEvent) {
@@ -33,4 +36,15 @@ public class ControllerFirstScene {
         birthday.setText(person.getBirthday().toString());
 
     }
+
+    public void option(ActionEvent actionEvent) {
+
+        OptionsPanel optionsPanel = new OptionsPanel();
+
+
+    }
+
+
+
+
 }
