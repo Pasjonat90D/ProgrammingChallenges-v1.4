@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
+<?import javafx.collections.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.control.Button?>
@@ -12,21 +13,36 @@
 
 <AnchorPane prefHeight="377.0" prefWidth="336.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="com.namegrnerator.controllerFxml.ControllerFirstScene">
   <children>
-    <Label id="" alignment="CENTER_RIGHT" layoutX="54.0" layoutY="59.0" prefHeight="21.0" prefWidth="51.0" text="Name:" textAlignment="LEFT" wrapText="false">
+    <Label id="" alignment="CENTER_RIGHT" layoutX="56.0" layoutY="158.0" prefHeight="21.0" prefWidth="51.0" text="Name:" textAlignment="LEFT" wrapText="false">
       <font>
         <Font size="15.0" fx:id="x1" />
       </font>
     </Label>
-    <Label alignment="CENTER_RIGHT" font="$x1" layoutX="40.0" layoutY="89.0" prefWidth="65.0" text="Surname:" textAlignment="LEFT" />
-    <Button fx:id="button" layoutX="248.0" layoutY="16.0" mnemonicParsing="false" onAction="#click" text="Geneate" />
-    <Label fx:id="name" font="$x1" layoutX="112.0" layoutY="60.0" prefHeight="17.0" prefWidth="136.0" text="" textAlignment="LEFT" />
-    <Label fx:id="surname" font="$x1" layoutX="112.0" layoutY="85.0" prefHeight="17.0" prefWidth="136.0" text="" textAlignment="LEFT" />
-    <Label alignment="CENTER_RIGHT" font="$x1" layoutX="40.0" layoutY="118.0" prefWidth="65.0" text="Birthday:" textAlignment="LEFT" />
-    <Label alignment="CENTER_RIGHT" font="$x1" layoutX="40.0" layoutY="149.0" prefWidth="65.0" text="Address:" textAlignment="LEFT" />
-    <Label fx:id="birthday" font="$x1" layoutX="112.0" layoutY="114.0" prefHeight="17.0" prefWidth="136.0" text="" textAlignment="LEFT" />
-    <Label fx:id="address" font="$x1" layoutX="112.0" layoutY="145.0" prefHeight="17.0" prefWidth="136.0" text="" textAlignment="LEFT" />
-    <Label alignment="CENTER_RIGHT" font="$x1" layoutX="14.0" layoutY="175.0" prefWidth="91.0" text="Phone:" textAlignment="LEFT" />
-    <Label fx:id="numberPhone" font="$x1" layoutX="112.0" layoutY="175.0" prefHeight="17.0" prefWidth="136.0" text="" textAlignment="LEFT" />
-    <Button onAction="#option" layoutX="17.0" layoutY="17.0" mnemonicParsing="false" text="Option" />
+    <Label alignment="CENTER_RIGHT" font="$x1" layoutX="42.0" layoutY="188.0" prefWidth="65.0" text="Surname:" textAlignment="LEFT" />
+    <Button fx:id="button" layoutX="133.0" layoutY="91.0" mnemonicParsing="false" onAction="#click" text="Geneate" />
+    <Label fx:id="name" font="$x1" layoutX="114.0" layoutY="159.0" prefHeight="17.0" prefWidth="136.0" text="" textAlignment="LEFT" />
+    <Label fx:id="surname" font="$x1" layoutX="114.0" layoutY="184.0" prefHeight="17.0" prefWidth="136.0" text="" textAlignment="LEFT" />
+    <Label alignment="CENTER_RIGHT" font="$x1" layoutX="42.0" layoutY="217.0" prefWidth="65.0" text="Birthday:" textAlignment="LEFT" />
+    <Label alignment="CENTER_RIGHT" font="$x1" layoutX="42.0" layoutY="248.0" prefWidth="65.0" text="Address:" textAlignment="LEFT" />
+    <Label fx:id="birthday" font="$x1" layoutX="114.0" layoutY="213.0" prefHeight="17.0" prefWidth="136.0" text="" textAlignment="LEFT" />
+    <Label fx:id="address" font="$x1" layoutX="114.0" layoutY="244.0" prefHeight="17.0" prefWidth="136.0" text="" textAlignment="LEFT" />
+    <Label alignment="CENTER_RIGHT" font="$x1" layoutX="16.0" layoutY="274.0" prefWidth="91.0" text="Phone:" textAlignment="LEFT" />
+    <Label fx:id="numberPhone" font="$x1" layoutX="114.0" layoutY="274.0" prefHeight="17.0" prefWidth="136.0" text="" textAlignment="LEFT" />
+    <Label layoutX="82.0" layoutY="27.0" text="Gender" />
+    <Label layoutX="75.0" layoutY="59.0" text="Country" textAlignment="RIGHT" />
+    <ComboBox fx:id="genderBox" layoutX="133.0" layoutY="25.0">
+      <items>
+        <FXCollections fx:factory="observableArrayList">
+
+        </FXCollections>
+      </items>
+    </ComboBox>
+    <ComboBox fx:id="countryBox" layoutX="133.0" layoutY="56.0">
+      <items>
+        <FXCollections fx:factory="observableArrayList">
+
+        </FXCollections>
+      </items>
+    </ComboBox>
   </children>
 </AnchorPane>
