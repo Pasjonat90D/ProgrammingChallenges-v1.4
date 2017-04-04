@@ -1,5 +1,6 @@
 package com.namegrnerator.controller;
 
+import com.namegrnerator.Main;
 import com.namegrnerator.dataToGenarate.Data;
 import com.namegrnerator.model.Person;
 
@@ -18,15 +19,16 @@ public class Generator {
 
         Random random = new Random();
 
+        int numberPhone = ThreadLocalRandom.current().nextInt(100000000, 999999998 + 1);
         int rand = random.nextInt(Data.names.length);
 
-        Person person = new Person(names.randomLine(), Data.surnames[rand], Data.numberPhones[rand], randomBirthday().toLocalDate(), Data.address[rand]);
+        Person person = new Person(names.randomLine(), Data.surnames[rand], numberPhone, randomBirthday().toLocalDate(), Data.address[rand]);
         return person;
 
     }
 
     private static String nameFileForNamesPerson(String gender) {
-        if (gender.equals("Famale")) {
+        if (gender.equals("Female")) {
             return "src/main/java/com/namegrnerator/dataToGenarate/NameF.txt";
         } else if (gender.equals("Male")) {
             return "src/main/java/com/namegrnerator/dataToGenarate/NameM";
