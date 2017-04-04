@@ -10,9 +10,7 @@ public class JUniteTest {
 
     @Test
     public void test() {
-        Person person1 = Generator.generatorPeron();
-        Person prerson2 = Generator.generatorPeron();
-        assertEquals(person1.getName(),prerson2.getName());
+
 
     }
 }

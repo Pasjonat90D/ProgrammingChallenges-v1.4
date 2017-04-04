@@ -13,6 +13,7 @@ import javafx.scene.control.Label;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.ResourceBundle;
 
 public class ControllerFirstScene implements Initializable {
@@ -32,6 +33,8 @@ public class ControllerFirstScene implements Initializable {
     @FXML
     public ComboBox countryBox;
 
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         ArrayList<String> genderList = new ArrayList<>();
@@ -39,26 +42,24 @@ public class ControllerFirstScene implements Initializable {
         genderList.add("Male");
         genderList.add("Female");
         ObservableList obList = FXCollections.observableList(genderList);
-        this.genderBox.getItems().clear();
-        this.genderBox.setItems(obList);
-
-
-
+        genderBox.setItems(obList);
+        genderBox.getSelectionModel().selectFirst();
+        countryBox.setItems(FXCollections.observableList(Collections.singletonList("Random")));
+        countryBox.getSelectionModel().selectFirst();
     }
 
 
-
-    public void click(ActionEvent actionEvent) {
-        System.out.println(genderBox.getValue()+"");
-        Person person = Generator.generatorPeron();
-        name.setText(person.getName());
-        surname.setText(person.getSurname());
-        numberPhone.setText(person.getNumberPhone()+"");
-        address.setText(person.getAddress());
-        birthday.setText(person.getBirthday().toString());
+    public void click() {
+        System.out.println(genderBox.getValue() + "");
+        String selectionGender = genderBox.getValue() + "";
+        Person person = Generator.generatorPeron(selectionGender);
+        this.name.setText(person.getName());
+        this.surname.setText(person.getSurname());
+        this.numberPhone.setText(person.getNumberPhone() + "");
+        this.address.setText(person.getAddress());
+        this.birthday.setText(person.getBirthday().toString());
 
     }
-
 
 
 }

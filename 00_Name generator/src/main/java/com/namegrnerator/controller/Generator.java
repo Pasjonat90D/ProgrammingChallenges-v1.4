@@ -3,10 +3,6 @@ package com.namegrnerator.controller;
 import com.namegrnerator.dataToGenarate.Data;
 import com.namegrnerator.model.Person;
 
-import java.io.*;
-import java.net.URI;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
@@ -17,26 +13,39 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Generator {
 
 
-    public static Person generatorPeron() {
-
-
-        FileSupport nameFFile = new FileSupport("src/main/java/com/namegrnerator/dataToGenarate/NameF.txt");
-        FileSupport nameMFile = new FileSupport("src/main/java/com/namegrnerator/dataToGenarate/NameM");
-
+    public static Person generatorPeron(String gender) {
+        FileSupport names = new FileSupport(nameFileForNamesPerson(gender));
 
         Random random = new Random();
 
         int rand = random.nextInt(Data.names.length);
+
+        Person person = new Person(names.randomLine(), Data.surnames[rand], Data.numberPhones[rand], randomBirthday().toLocalDate(), Data.address[rand]);
+        return person;
+
+    }
+
+    private static String nameFileForNamesPerson(String gender) {
+        if (gender.equals("Famale")) {
+            return "src/main/java/com/namegrnerator/dataToGenarate/NameF.txt";
+        } else if (gender.equals("Male")) {
+            return "src/main/java/com/namegrnerator/dataToGenarate/NameM";
+        } else {
+            Random rand = new Random();
+            if (rand.nextBoolean() == true) {
+                return "src/main/java/com/namegrnerator/dataToGenarate/NameF.txt";
+            } else {
+                return "src/main/java/com/namegrnerator/dataToGenarate/NameM";
+            }
+        }
+    }
+
+    private static LocalDateTime randomBirthday() {
         int years = ThreadLocalRandom.current().nextInt(1950, 2016 + 1);
         int month = ThreadLocalRandom.current().nextInt(1, 12 + 1);
         int day = ThreadLocalRandom.current().nextInt(1, 28 + 1);
         LocalDateTime birthday = LocalDateTime.of(years, month, day, 0, 0);
-        Person person = new Person(nameFFile.randomLine(), Data.surnames[rand], Data.numberPhones[rand], birthday.toLocalDate(), Data.address[rand]);
-
-        return person;
-
-
+        return birthday;
     }
-
 
 }
