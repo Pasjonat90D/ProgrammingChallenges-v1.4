@@ -11,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -49,8 +50,7 @@ public class ControllerFirstScene implements Initializable {
     }
 
 
-    public void click() {
-        System.out.println(genderBox.getValue() + "");
+    public void click() throws IOException {
         String selectionGender = genderBox.getValue() + "";
         Person person = Generator.generatorPeron(selectionGender);
         this.name.setText(person.getName());

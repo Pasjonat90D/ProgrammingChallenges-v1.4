@@ -1,0 +1,16 @@
+package com.namegrnerator.controller;
+
+import org.junit.Test;
+
+import static org.junit.Assert.*;
+
+/**
+ * Created by Andrzej on 2017-04-05.
+ */
+public class GeneratorTest {
+    @Test
+    public void generatorPeron() throws Exception {
+
+    }
+
+}

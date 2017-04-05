@@ -15,7 +15,6 @@ public class FileSupport {
 
     public FileSupport(String s) {
 
-
         pathFile = new File(s).getAbsolutePath();
         this.file = new File(pathFile);
     }
@@ -40,7 +39,8 @@ public class FileSupport {
             lineNumberReaderName.close();
         } catch (FileNotFoundException e) {
             System.out.println(file.getAbsolutePath());
-            e.printStackTrace();
+            //e.printStackTrace();
+            throw e;
         } catch (IOException e) {
             e.printStackTrace();
         }

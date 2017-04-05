@@ -1,7 +1,5 @@
 package com.namegrnerator.controller;
 
-import com.namegrnerator.Main;
-import com.namegrnerator.dataToGenarate.Data;
 import com.namegrnerator.model.Person;
 
 import java.time.LocalDateTime;
@@ -17,12 +15,11 @@ public class Generator {
     public static Person generatorPeron(String gender) {
         FileSupport names = new FileSupport(nameFileForNamesPerson(gender));
 
-        Random random = new Random();
-
         int numberPhone = ThreadLocalRandom.current().nextInt(100000000, 999999998 + 1);
-        int rand = random.nextInt(Data.names.length);
 
-        Person person = new Person(names.randomLine(), Data.surnames[rand], numberPhone, randomBirthday().toLocalDate(), Data.address[rand]);
+        FileSupport surname = new FileSupport("src/main/java/com/namegrnerator/dataToGenarate/Surname");
+        FileSupport address = new FileSupport("src/main/java/com/namegrnerator/dataToGenarate/Address");
+        Person person = new Person(names.randomLine(), surname.randomLine(), numberPhone, randomBirthday().toLocalDate(), address.randomLine());
         return person;
 
     }
