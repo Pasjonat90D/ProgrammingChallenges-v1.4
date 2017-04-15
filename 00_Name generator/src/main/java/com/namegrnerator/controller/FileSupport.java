@@ -37,11 +37,7 @@ public class FileSupport {
                 }
             }
             lineNumberReaderName.close();
-        } catch (FileNotFoundException e) {
-            System.out.println(file.getAbsolutePath());
-            //e.printStackTrace();
-            throw e;
-        } catch (IOException e) {
+        }  catch (IOException e) {
             e.printStackTrace();
         }
         return name;

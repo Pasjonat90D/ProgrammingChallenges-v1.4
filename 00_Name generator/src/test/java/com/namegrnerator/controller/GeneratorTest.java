@@ -1,5 +1,6 @@
 package com.namegrnerator.controller;
 
+import com.namegrnerator.model.Person;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -9,7 +10,8 @@ import static org.junit.Assert.*;
  */
 public class GeneratorTest {
     @Test
-    public void generatorPeron() throws Exception {
+    public void testGeneratorPersonIsNotNull()  {
+        assertNotNull(Generator.generatorPeron("Random"));
 
     }
 
