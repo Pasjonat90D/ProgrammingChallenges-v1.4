@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ownProject.controller.Controller">
+  <children>
+   
+    <MenuBar layoutX="0.0" layoutY="0.0" prefWidth="600.0">
+      <menus>
+        <Menu mnemonicParsing="false" text="File">
+          <items>
+            <MenuItem mnemonicParsing="false" text="Close" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Edit">
+          <items>
+            <MenuItem mnemonicParsing="false" text="Delete" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Help">
+          <items>
+            <MenuItem mnemonicParsing="false" text="About" />
+          </items>
+        </Menu>
+      </menus>
+    </MenuBar>
+    <Region layoutX="0.0" layoutY="24.0" prefHeight="43.0" prefWidth="600.0" style="-fx-background-color: #2f4f4f;" />
+    <Button layoutX="14.0" layoutY="35.0" mnemonicParsing="false" text="Text" fx:id="italicButton" onAction="#italicOnAction" >
+         <font>
+            <Font name="System Italic" size="12.0" />
+         </font></Button>
+    <TextArea layoutX="0.0" layoutY="67.0" prefHeight="333.0390625" prefWidth="599.9999000000025"  wrapText="true" fx:id="textArea" />
+    <Button layoutX="87.0" layoutY="36.0" mnemonicParsing="false" text="Button" />
+
+  </children>
+</Pane>
