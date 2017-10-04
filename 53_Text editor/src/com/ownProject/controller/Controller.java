@@ -1,153 +1,189 @@
 package controller;
 
+import fileHandling.FileOpen;
+import fileHandling.FileType;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
 import javafx.concurrent.Task;
-import javafx.embed.swing.SwingFXUtils;
-import javafx.event.ActionEvent;
+import javafx.concurrent.WorkerStateEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-
 import javafx.fxml.Initializable;
-
-import java.awt.*;
-import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.URL;
-import java.nio.file.Path;
-import java.util.*;
-import java.util.List;
-import java.util.concurrent.CancellationException;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.atomic.AtomicLong;
-
-import javafx.geometry.Orientation;
-import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.web.HTMLEditor;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.apache.commons.io.FilenameUtils;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
-
-import static java.awt.SystemColor.menu;
-import static java.awt.SystemColor.text;
+import java.io.File;
+import java.net.URL;
+import java.util.Optional;
+import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class Controller implements Initializable {
 
+    private FileOpen fileOpen;
+    private String textToTextArea = "";
 
     @FXML
-    private HTMLEditor textArea ;
+    private HTMLEditor textArea;
 
     @FXML
     private Label lines;
-    String resoult;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         textArea.setHtmlText("Add text");
+        lines.setVisible(false);
     }
 
-    public void createNewFile(ActionEvent actionEvent) {
-
-        Alert alertWantToSave = new Alert(Alert.AlertType.CONFIRMATION);
-        alertWantToSave.setTitle("Editor Message");
-        alertWantToSave.setHeaderText("Do you want to save changes");
-
-        ButtonType yesSaveButton = new ButtonType("Yes");
-        ButtonType noSaveButton = new ButtonType("No");
-
-        ButtonType cancelSaveButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
-
-        alertWantToSave.getButtonTypes().setAll(yesSaveButton, noSaveButton, cancelSaveButton);
-
-        Optional<ButtonType> resultAlertSave = alertWantToSave.showAndWait();
-        if (resultAlertSave.get() == yesSaveButton){
-            resoult = textArea.getHtmlText();
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Open Resource File");
-            Stage stage  = (Stage) textArea.getScene().getWindow();
-            fileChooser.getExtensionFilters().addAll(
-                    new FileChooser.ExtensionFilter("All Images", "*.*"),
-                    new FileChooser.ExtensionFilter(".txt", "*.txt")
-            );
-
-            File file = fileChooser.showSaveDialog(stage);
-            if (file != null) {
-
+    public void createNewFile() {
+        ButtonType resultSaveChanges = alertSaveChanges();
+        if(resultSaveChanges != ButtonType.CANCEL) {
+            if (resultSaveChanges == ButtonType.YES) {
+                saveFile();
             }
-            System.out.println(file.toString());
-            textArea.setHtmlText("");
-        } else if (resultAlertSave.get() == noSaveButton) {
             textArea.setHtmlText("");
         }
-
     }
 
 
-    public void openFile(ActionEvent actionEvent) {
+    public void saveFile() {
+        textToTextArea = textArea.getHtmlText();
+        if (fileOpen != null) {
+            if (fileOpen.isTxt())
+                parserToText();
+            fileOpen.save(textToTextArea);
+        } else {
+            saveAsFile();
+        }
+    }
 
+    public void saveAsFile() {
 
+        Alert alertWantToSave = new Alert(Alert.AlertType.CONFIRMATION);
+        alertWantToSave.setTitle("Choose");
+        alertWantToSave.setHeaderText("Choose format:");
+
+        ButtonType textFormat = new ButtonType("Text");
+        ButtonType htmlFormat = new ButtonType("HTML");
+
+        alertWantToSave.getButtonTypes().setAll(textFormat, htmlFormat, ButtonType.CANCEL);
+
+        Optional<ButtonType> resultAlertSave = alertWantToSave.showAndWait();
+
+        if (resultAlertSave.get() != ButtonType.CANCEL) {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Save File");
+            Stage stage = (Stage) textArea.getScene().getWindow();
+            fileChooser.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("All", "*.*"),
+                    new FileChooser.ExtensionFilter(".txt", "*.txt")
+            );
+            File fileSelected = fileChooser.showSaveDialog(stage);
+
+            {
+
+                if (fileSelected != null) {
+                    if (resultAlertSave.get() == textFormat) {
+                        parserToText();
+                    }
+                    String ext1 = FilenameUtils.getExtension(fileSelected.toString());
+                    fileOpen = new FileOpen(fileSelected, fileExtension(ext1));
+                    fileOpen.save(textToTextArea);
+                    System.out.println(textArea.getHtmlText() + "");
+                }
+            }
+        }
+    }
+
+    public void openFile() {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Open Resource File");
-        Stage stage  = (Stage) textArea.getScene().getWindow();
+        fileChooser.setTitle("Open File");
+        Stage stage = (Stage) textArea.getScene().getWindow();
         fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("All Images", "*.*"),
+                new FileChooser.ExtensionFilter("All", "*.*"),
                 new FileChooser.ExtensionFilter(".txt", "*.txt")
         );
+        File fileSelected = fileChooser.showOpenDialog(stage);
 
-        File file = fileChooser.showOpenDialog(stage);
-        final String[] textToTextArea = {""};
-        if (file != null) {
+
+        if (fileOpen != null) {
+            String ext1 = FilenameUtils.getExtension(fileSelected.toString());
+            fileOpen = new FileOpen(fileSelected, fileExtension(ext1));
             Task<Void> task = new Task<Void>() {
+
                 @Override
                 public Void call() throws Exception {
+                    lines.setFont(new Font("Arial", 23));
+                    lines.setTextFill(Color.RED);
+                    updateMessage("Loading...");
+                    lines.setVisible(true);
+                    textToTextArea = fileOpen.open();
+                    Thread.sleep(1000);
+                    return null;
+                }
 
-                    int lineNumber = 0;
-                    boolean count = true;
-                    while (count) {
-
-                        try (Scanner in = new Scanner(new FileInputStream(file))) {
-                            while (in.hasNextLine()) {
-                                String line = in.nextLine();
-                                lineNumber++;
-                                textToTextArea[0] = textToTextArea[0] + line;
-                                textToTextArea[0] = textToTextArea[0] + "\n";
-                                updateMessage("Line: "+lineNumber);
-
-                            }
-
-                        } catch (FileNotFoundException e) {
-                            e.printStackTrace();
-                        }
-                        count = false;
-
-
-                    }return null;
-                };
+                ;
             };
             task.messageProperty().addListener((obs, oldMessage, newMessage) -> lines.setText(newMessage));
+            task.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+                @Override
+                public void handle(WorkerStateEvent t) {
+
+                    lines.setVisible(false);
+                    textArea.setHtmlText(textToTextArea);
+                }
+            });
             new Thread(task).start();
-            textArea.setHtmlText(textToTextArea[0]);
-
-        }}
-
-
-
-    public void saveFile(ActionEvent actionEvent) {
-
+        }
     }
 
-    public void saveAsFile(ActionEvent actionEvent) {
-
+    public void exitWindow() {
+        ButtonType resultSaveChanges = alertSaveChanges();
+        if (resultSaveChanges == ButtonType.YES) {
+            saveFile();
+        } else if(resultSaveChanges == ButtonType.NO) {
+            Platform.exit();
+        }
     }
 
-    public void exitWindow(ActionEvent actionEvent) {
 
+    private ButtonType alertSaveChanges(){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Save changes");
+        alert.setHeaderText("Do you want to save changes?");
+
+        alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+
+        Optional<ButtonType> resultAlertSave = alert.showAndWait();
+        return resultAlertSave.get();
     }
+
+
+    private FileType fileExtension(String extension) {
+        if (extension.equals("txt")) {
+            return FileType.TXT;
+        } else {
+            return FileType.HTML;
+        }
+    }
+
+    private void parserToText() {
+        Pattern pattern = Pattern.compile("<[^>]*>");
+        Matcher matcher = pattern.matcher(textToTextArea);
+        final StringBuffer sb = new StringBuffer(textToTextArea.length());
+        while (matcher.find()) {
+            matcher.appendReplacement(sb, " ");
+        }
+        matcher.appendTail(sb);
+        textToTextArea = sb.toString().trim();
+    }
+
 }

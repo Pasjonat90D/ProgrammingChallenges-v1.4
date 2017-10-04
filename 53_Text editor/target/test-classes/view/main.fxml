@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.web.*?>
+<?import javafx.scene.web.HTMLEditor?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="423.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="controller.Controller">
+  <children>
+    <MenuBar layoutX="0.0" layoutY="0.0" prefWidth="600.0">
+      <menus>
+        <Menu mnemonicParsing="false" text="File">
+          <items>
+            <MenuItem mnemonicParsing="false" onAction="#createNewFile" text="New" />
+            <MenuItem mnemonicParsing="false" onAction="#openFile" text="Open..." />
+            <MenuItem mnemonicParsing="false" onAction="#saveFile" text="Save" />
+            <MenuItem mnemonicParsing="false" onAction="#saveAsFile" text="Save As..." />
+            <MenuItem mnemonicParsing="false" onAction="#exitWindow" text="Exit" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Edit">
+          <items>
+            <MenuItem mnemonicParsing="false" text="Delete" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Help">
+          <items>
+            <MenuItem mnemonicParsing="false" text="About" />
+          </items>
+        </Menu>
+      </menus>
+    </MenuBar>
+    <HTMLEditor fx:id="textArea" layoutX="0.0" layoutY="24.0" prefHeight="399.0" prefWidth="599.9999000000025" />
+    <Label fx:id="lines" alignment="CENTER" layoutX="14.0" layoutY="377.0" prefHeight="32.0" prefWidth="109.0" text="Label" textAlignment="CENTER" textOverrun="CLIP" />
+  </children>
+</Pane>
