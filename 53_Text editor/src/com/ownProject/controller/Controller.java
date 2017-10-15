@@ -1,10 +1,11 @@
 package controller;
 
-import fileHandling.FileOpen;
+import fileHandling.DocumentImpl;
 import fileHandling.FileType;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -28,7 +29,8 @@ import java.util.regex.Pattern;
 
 public class Controller implements Initializable {
 
-    private FileOpen fileOpen;
+    private FileType fileType;
+    private DocumentImpl document;
     private String textToTextArea = "";
 
     @FXML
@@ -43,7 +45,7 @@ public class Controller implements Initializable {
         lines.setVisible(false);
     }
 
-    public void createNewFile() {
+    public void newFile() {
         ButtonType resultSaveChanges = alertSaveChanges();
         if(resultSaveChanges != ButtonType.CANCEL) {
             if (resultSaveChanges == ButtonType.YES) {
@@ -56,10 +58,10 @@ public class Controller implements Initializable {
 
     public void saveFile() {
         textToTextArea = textArea.getHtmlText();
-        if (fileOpen != null) {
-            if (fileOpen.isTxt())
+        if (document != null) {
+            if (fileType==FileType.TXT)
                 parserToText();
-            fileOpen.save(textToTextArea);
+            document.save(textToTextArea);
         } else {
             saveAsFile();
         }
@@ -82,22 +84,30 @@ public class Controller implements Initializable {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Save File");
             Stage stage = (Stage) textArea.getScene().getWindow();
+            if(resultAlertSave.get().equals(textFormat)){
+                fileChooser.getExtensionFilters().addAll(
+                        new FileChooser.ExtensionFilter(".txt", "*.txt"),
+                        new FileChooser.ExtensionFilter(".html", "*.html")
+                );
+            } else {
             fileChooser.getExtensionFilters().addAll(
-                    new FileChooser.ExtensionFilter("All", "*.*"),
+                    new FileChooser.ExtensionFilter(".html", "*.html"),
                     new FileChooser.ExtensionFilter(".txt", "*.txt")
-            );
+            );}
+            fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+
             File fileSelected = fileChooser.showSaveDialog(stage);
 
             {
 
                 if (fileSelected != null) {
                     if (resultAlertSave.get() == textFormat) {
+                        fileType = FileType.TXT;
                         parserToText();
                     }
                     String ext1 = FilenameUtils.getExtension(fileSelected.toString());
-                    fileOpen = new FileOpen(fileSelected, fileExtension(ext1));
-                    fileOpen.save(textToTextArea);
-                    System.out.println(textArea.getHtmlText() + "");
+                    document = new DocumentImpl(fileSelected);
+                    document.save(textToTextArea);
                 }
             }
         }
@@ -109,14 +119,16 @@ public class Controller implements Initializable {
         Stage stage = (Stage) textArea.getScene().getWindow();
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("All", "*.*"),
-                new FileChooser.ExtensionFilter(".txt", "*.txt")
+                new FileChooser.ExtensionFilter(".txt", "*.txt"),
+                new FileChooser.ExtensionFilter(".html", "*.html")
         );
+        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
         File fileSelected = fileChooser.showOpenDialog(stage);
 
 
-        if (fileOpen != null) {
-            String ext1 = FilenameUtils.getExtension(fileSelected.toString());
-            fileOpen = new FileOpen(fileSelected, fileExtension(ext1));
+        if (document != null) {
+
+            document = new DocumentImpl(fileSelected);
             Task<Void> task = new Task<Void>() {
 
                 @Override
@@ -125,7 +137,7 @@ public class Controller implements Initializable {
                     lines.setTextFill(Color.RED);
                     updateMessage("Loading...");
                     lines.setVisible(true);
-                    textToTextArea = fileOpen.open();
+                    textToTextArea = document.open();
                     Thread.sleep(1000);
                     return null;
                 }
@@ -167,13 +179,6 @@ public class Controller implements Initializable {
     }
 
 
-    private FileType fileExtension(String extension) {
-        if (extension.equals("txt")) {
-            return FileType.TXT;
-        } else {
-            return FileType.HTML;
-        }
-    }
 
     private void parserToText() {
         Pattern pattern = Pattern.compile("<[^>]*>");
@@ -186,4 +191,7 @@ public class Controller implements Initializable {
         textToTextArea = sb.toString().trim();
     }
 
+    public void ClearAll(ActionEvent actionEvent) {
+        textArea.setHtmlText("");
+    }
 }

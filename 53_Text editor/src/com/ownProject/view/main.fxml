@@ -9,7 +9,7 @@
       <menus>
         <Menu mnemonicParsing="false" text="File">
           <items>
-            <MenuItem mnemonicParsing="false" onAction="#createNewFile" text="New" />
+            <MenuItem mnemonicParsing="false" onAction="#newFile" text="New" />
             <MenuItem mnemonicParsing="false" onAction="#openFile" text="Open..." />
             <MenuItem mnemonicParsing="false" onAction="#saveFile" text="Save" />
             <MenuItem mnemonicParsing="false" onAction="#saveAsFile" text="Save As..." />
@@ -18,7 +18,7 @@
         </Menu>
         <Menu mnemonicParsing="false" text="Edit">
           <items>
-            <MenuItem mnemonicParsing="false" text="Delete" />
+            <MenuItem mnemonicParsing="false" text="Clear All"  onAction="#ClearAll" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Help">
