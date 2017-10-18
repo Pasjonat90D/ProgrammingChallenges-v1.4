@@ -1,5 +1,6 @@
 package controller;
 
+import fileHandling.Document;
 import fileHandling.DocumentImpl;
 import fileHandling.FileType;
 import javafx.application.Platform;
@@ -57,11 +58,14 @@ public class Controller implements Initializable {
 
 
     public void saveFile() {
-        textToTextArea = textArea.getHtmlText();
+
         if (document != null) {
+            String textToSave = null;
             if (fileType==FileType.TXT)
-                parserToText();
-            document.save(textToTextArea);
+                textToSave = parserToText(textArea.getHtmlText());
+            else
+                textToSave = textArea.getHtmlText();
+            document.save(textToSave);
         } else {
             saveAsFile();
         }
@@ -95,21 +99,18 @@ public class Controller implements Initializable {
                     new FileChooser.ExtensionFilter(".txt", "*.txt")
             );}
             fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
-
             File fileSelected = fileChooser.showSaveDialog(stage);
-
-            {
-
                 if (fileSelected != null) {
+                    String textToSave = null;
                     if (resultAlertSave.get() == textFormat) {
                         fileType = FileType.TXT;
-                        parserToText();
+                        textToSave = parserToText(textArea.getHtmlText());
                     }
-                    String ext1 = FilenameUtils.getExtension(fileSelected.toString());
+                    else
+                        textToSave = textArea.getHtmlText();
                     document = new DocumentImpl(fileSelected);
-                    document.save(textToTextArea);
+                    document.save(textToSave);
                 }
-            }
         }
     }
 
@@ -125,8 +126,6 @@ public class Controller implements Initializable {
         fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
         File fileSelected = fileChooser.showOpenDialog(stage);
 
-
-        if (document != null) {
 
             document = new DocumentImpl(fileSelected);
             Task<Void> task = new Task<Void>() {
@@ -154,7 +153,7 @@ public class Controller implements Initializable {
                 }
             });
             new Thread(task).start();
-        }
+
     }
 
     public void exitWindow() {
@@ -180,18 +179,18 @@ public class Controller implements Initializable {
 
 
 
-    private void parserToText() {
+    private String parserToText(String text) {
         Pattern pattern = Pattern.compile("<[^>]*>");
-        Matcher matcher = pattern.matcher(textToTextArea);
-        final StringBuffer sb = new StringBuffer(textToTextArea.length());
+        Matcher matcher = pattern.matcher(text);
+        final StringBuffer sb = new StringBuffer(text.length());
         while (matcher.find()) {
             matcher.appendReplacement(sb, " ");
         }
         matcher.appendTail(sb);
-        textToTextArea = sb.toString().trim();
+        return sb.toString().trim();
     }
 
-    public void ClearAll(ActionEvent actionEvent) {
+    public void CleanAll(ActionEvent actionEvent) {
         textArea.setHtmlText("");
     }
 }
