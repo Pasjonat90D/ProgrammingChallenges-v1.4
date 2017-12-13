@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class Main extends Application {
 
@@ -16,9 +17,12 @@ public class Main extends Application {
         String fxmlFile = "/fxml/first.fxml";
         FXMLLoader loader = new FXMLLoader();
         Parent rootNode = loader.load(getClass().getResourceAsStream(fxmlFile));
-        Scene scene = new Scene(rootNode, 400, 200);
+        Scene scene = new Scene(rootNode, 600, 400);
         scene.getStylesheets().add("/styles/styles.css");
         stage.setTitle("Hello");
+
+        //stage decoration
+        //stage.initStyle(StageStyle.UTILITY);
         stage.setScene(scene);
         stage.show();
     }
