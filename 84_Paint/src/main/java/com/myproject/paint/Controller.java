@@ -7,15 +7,22 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.ColorPicker;
+import javafx.scene.control.MenuButton;
 import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable{
-        @FXML
+    @FXML
     public Canvas canvas;
+    @FXML
+    public MenuButton menuButton;
+    @FXML
+    ColorPicker firstColor;
+    @FXML
+    public ColorPicker secondColor;
 
     private Shape shape;
     private GraphicsContext graphicsContext;
@@ -25,22 +32,28 @@ public class Controller implements Initializable{
         graphicsContext = canvas.getGraphicsContext2D();
     }
 
-    public void select(ActionEvent actionEvent) {
-            MenuItem menuItem = (MenuItem) actionEvent.getSource();
-            if(menuItem.getText().equals("Line")){
-                shape = new LineImpl();
-            }
-    }
 
     public void canvasClicked(MouseEvent mouseEvent) {
+        if(shape != null)
         shape.pressedKey(mouseEvent.getX(),mouseEvent.getY());
     }
 
 
     public void canvasReleased(MouseEvent mouseEvent) {
-        shape.releasedKey(mouseEvent.getX(),mouseEvent.getY());
-        shape.draw(graphicsContext);
+        if(shape != null) {
+            shape.releasedKey(mouseEvent.getX(), mouseEvent.getY());
+            shape.draw(graphicsContext, firstColor.getValue(), secondColor.getValue());
+        }
     }
 
+
+    public void exit(ActionEvent actionEvent) {
+
+    }
+
+    public void selectLine() {
+        shape = new LineImpl();
+        menuButton.setText("Line");
+    }
 
 }

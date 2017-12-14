@@ -1,12 +1,32 @@
-
-
-.label {
-    -fx-font-size: 12px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #333333;
-    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
+.tool-bar{
+    -fx-background-color: #595959;
 }
 
-
+.menu-button{
+    -fx-border-color: #e4e4eb;
+    -fx-background-radius: 15;
+    -fx-border-radius: 43;
+    -fx-background-color: #595959;
+}
+.color-picker{
+    -fx-background-color: #595959;
+}
+.button{
+    -fx-border-color: #e4e4eb;
+    -fx-text-fill: white;
+    -fx-background-radius: 15;
+    -fx-border-radius: 43;
+    -fx-background-color: #595959;
+}
+.button:hover{
+    -fx-text-fill: #595959;
+    -fx-background-color: #e4e4eb;
+}
+#area{
+    -fx-background-color:  #778899;
+}
+#stack-pane{
+    -fx-background-color: #FFFFFF;
+}
 
     /*-fx-background-image: url("../images/background.jpg");*/
