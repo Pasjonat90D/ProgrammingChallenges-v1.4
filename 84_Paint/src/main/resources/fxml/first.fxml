@@ -1,26 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.canvas.Canvas?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<AnchorPane minWidth="600.0" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="com.myproject.paint.Controller">
-  <VBox  AnchorPane.bottomAnchor="342.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-    <ToolBar minHeight="48.0" mouseTransparent="false" pickOnBounds="false" >
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane minWidth="600.0" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.myproject.paint.Controller">
+  <VBox AnchorPane.bottomAnchor="342.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <ToolBar minHeight="48.0" mouseTransparent="false" pickOnBounds="false">
       <items>
-        <MenuButton fx:id="menuButton" text="Shape" textFill="aliceblue" textAlignment="CENTER"  prefWidth="120.0" >
+        <Button onAction="#selectNew" prefHeight="25.0" prefWidth="67.0" text="New" />
+        <MenuButton fx:id="menuButton" prefWidth="120.0" text="Shape"  textFill="aliceblue">
           <items>
-            <MenuItem onAction="#selectLine" text="Line" />
+            <MenuItem onAction="#selectLine" text="Line"  />
+            <MenuItem onAction="#selectCircle" text="Circle" />
+            <MenuItem onAction="#selectRectangle" text="Rectangle" />
           </items>
         </MenuButton>
-        <ColorPicker  fx:id="firstColor" />
-        <ColorPicker  fx:id="secondColor"/>
+        <ColorPicker fx:id="firstColor" />
+        <ColorPicker fx:id="secondColor" />
 
-        <Button onAction="#exit" prefHeight="25.0" prefWidth="67.0"  text="Exit" />
+        <Button onAction="#exit" prefHeight="25.0" prefWidth="67.0" text="Exit" />
       </items>
     </ToolBar>
   </VBox>
-  <VBox id="area" minWidth="-Infinity" prefHeight="350.0" prefWidth="600.0"
-        AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="48.0">
+  <VBox id="area" minWidth="-Infinity" prefHeight="350.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="48.0">
     <StackPane id="stack-pane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="350.0" prefWidth="600.0" VBox.vgrow="NEVER">
       <Canvas fx:id="canvas" height="350.0" onMousePressed="#canvasClicked" onMouseReleased="#canvasReleased" width="600.0" />
     </StackPane>
